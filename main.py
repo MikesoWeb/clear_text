@@ -1,14 +1,17 @@
 f = open('pars.txt')
-d = str(f)
-#f = 'fhf56547ghrt5::6'
-numbers = "1234567890:"
-count = 0
-for i in d:
-  if numbers in i:
-    i.replace(numbers, '')
-    count += 1
+x = f.read(-100)
+x = x.replace('0','').replace('1','').replace('2','').replace('3','').replace('4','').replace('5','').replace('6','').replace('7','').replace('8','').replace('9','').replace('0','').replace(':','')
+d = open('res.txt', 'w')
+d.writelines(x)
+d.close()
+f.close()
+
+
+
     
-print(count)
+  
+    
+ 
 
 
 
