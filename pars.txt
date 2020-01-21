@@ -1,0 +1,2128 @@
+00:00
+[Music]
+00:06
+this video is sponsored by lenôtre what
+00:09
+technology stack you build on the node
+00:11
+makes it easy for both beginners and
+00:12
+power users to host apps sites and
+00:15
+projects in the cloud to get $20 towards
+00:17
+your new account visit la node comm /
+00:19
+Traverse e hey what's going on guys so I
+00:22
+figured we'd do something a little
+00:23
+different today we're gonna build a
+00:26
+desktop GUI application with Python
+00:29
+we're actually going to use a library
+00:31
+called tkinter or TK int or some people
+00:33
+pronounce it and it just allows you to
+00:36
+build GUI applications on Windows and
+00:39
+Mac and I think Linux as well and we're
+00:42
+gonna build a part manager for our
+00:44
+computer repair shop so basically the
+00:47
+idea is that you know they get a
+00:48
+customer and maybe they need to order a
+00:50
+power supply or some memory or something
+00:52
+and they can add in the part name like
+00:55
+we can say you know 700 Watts PSU
+00:57
+customer and the retailer that they plan
+01:02
+on and we plan on getting it from so
+01:03
+we'll say Newegg and the price will say
+01:06
+180 okay and we can go ahead and add the
+01:08
+part gets added down here so it's
+01:10
+basically a crud application but it's a
+01:12
+desktop a GUI application and we can go
+01:15
+ahead and select one and we can update
+01:17
+so let's say we want to change the price
+01:19
+to 170 we can update it we can remove it
+01:22
+and we can also clear the text if
+01:25
+there's you know text in here we can
+01:26
+clear the the inputs alright and we get
+01:29
+a scroll bar here as well so if it goes
+01:31
+below a certain point we'll be able to
+01:33
+scroll and I admit it's not the best
+01:36
+looking application there's virtually no
+01:39
+style to it but you can add style with
+01:41
+the tkinter library but I don't really
+01:44
+want to focus on that I want to focus
+01:46
+more on creating these widgets and
+01:48
+adding functionality to them and as far
+01:51
+as the database we're gonna be using SQL
+01:53
+Lite which i think is fine for something
+01:55
+like this
+01:56
+where you're not gonna have a ton of
+01:58
+data it's just a small personal
+01:59
+application which I think it's fine for
+02:02
+but you could just as well use MySQL or
+02:05
+PostgreSQL or here called part manager
+02:12
+so I'm going to open up my
+02:13
+terminal and of course it needs have
+02:15
+Python installed with the PIP package
+02:18
+manager' and what you want to do is
+02:21
+install pipi and V okay I already have
+02:24
+it installed so I'm not going to run
+02:25
+this but that will install Pippy and V
+02:27
+on your system and then you can create a
+02:29
+virtual environment with pipi and V
+02:32
+shell rather than just doing everything
+02:35
+globally and installing any dependencies
+02:37
+we have globally on our system will
+02:39
+install it into this virtual environment
+02:41
+and it should create this pip file right
+02:44
+here which will show any dependencies
+02:46
+any packages that we install so we want
+02:49
+to select the correct interpreter NBS
+02:50
+code so command shift P and just if you
+02:53
+just search for python you'll see this
+02:55
+select interpreter and we're just gonna
+02:57
+go to this part manager right here
+03:00
+alright so now what we're gonna do is
+03:03
+use pipi and V to install our
+03:07
+dependencies which is T kinter or TK
+03:10
+inter and people different people say it
+03:12
+differently and then also something
+03:15
+called PI installer because what I want
+03:17
+to try doing is creating an executable
+03:20
+file out of our python script at the end
+03:23
+of this which worked flawlessly on
+03:25
+Windows actually created this on Windows
+03:27
+and PI installer worked perfectly but
+03:29
+then on Mac I ran into some issues I
+03:31
+read that there's some bugs so I don't
+03:33
+know we'll try it at the end and then we
+03:35
+also want to install TK message box
+03:39
+which is just like an alert component
+03:42
+type thing okay so those are the three
+03:45
+dependencies alright so now what we want
+03:49
+to do is just create a couple files
+03:50
+let's create a file called part
+03:53
+underscore manager dot pi and let's
+03:57
+create DB dot pi so basically part
+04:03
+manager is our main script and then DB
+04:05
+pi is where we'll create a database
+04:07
+class to insert records and fetch and
+04:10
+all that stuff so we're gonna start off
+04:12
+in part manager and let's first just
+04:15
+bring in tkinter and we're going to
+04:19
+import everything from it
+04:21
+and we need to create an app variable
+04:24
+and we're going to set that equal to the
+04:26
+TK method which will basically allow us
+04:29
+to create a window or window object and
+04:34
+then to run the project or I'll just say
+04:37
+start program we need to call app dot
+04:41
+and there's a method called main loop
+04:43
+okay so just these lines of code right
+04:46
+here oh it's just I'm just gonna I don't
+04:49
+need that just these couple lines of
+04:52
+code we should be able to run Python and
+04:54
+then part manager dot pi and it's gonna
+04:58
+open up a window okay and obviously it's
+05:01
+gonna look a little different if you're
+05:02
+on Windows and if you're on Mac but it
+05:04
+should it should do the same thing you
+05:06
+should just have a window with your
+05:07
+close buttons and this TK and the title
+05:10
+now I want to change this title
+05:12
+obviously I also want to set this to a
+05:15
+certain height and width so what I'm
+05:17
+gonna do is take this app variable and
+05:21
+change the title to part manager now as
+05:27
+far as resizing the window there's
+05:32
+different ways to do it I'm going to use
+05:33
+method called geometry and what this
+05:38
+does is we can pass in the width times
+05:40
+the height so I'm gonna say 700 times
+05:42
+350 now depending on you know if you're
+05:45
+on Windows or Mac or your screen size
+05:47
+your resolution you might have to tweak
+05:49
+this a little bit there might be a few
+05:51
+values you need to tweak to make this
+05:53
+look right on your system but this seems
+05:56
+to work for me all right I'm just going
+06:00
+to install this Auto pepp 8 thing okay
+06:05
+so let's go ahead and now run this again
+06:08
+so we want to run the heck Python
+06:19
+park manager PI all right so this is
+06:22
+what we should get I could see the
+06:24
+titles change and we have this 700 by
+06:27
+350 window alright so now what we want
+06:31
+to do is start to add widgets and the
+06:35
+first one I mean if we look at the
+06:37
+finished product here you can see this
+06:39
+is a widget this is a label right here
+06:41
+this is an entry a label entry and then
+06:44
+we have buttons then we have a list box
+06:46
+and we have a scroll bar so we need to
+06:48
+add we need to create these widgets and
+06:50
+basically place them on the grid that's
+06:53
+what we're going to use as a grid system
+06:55
+here which has rows and columns so let's
+06:59
+go ahead and create our label for the
+07:01
+the part and the part name so I'm going
+07:04
+to go right here and let's say part so
+07:10
+first thing we're going to do is create
+07:11
+a variable called part text and set this
+07:14
+to a string variable string var like
+07:18
+that and then we need to create a label
+07:22
+so we have access to this this label you
+07:25
+can create a label object because we
+07:27
+brought it in from this tkinter we
+07:29
+brought in everything up here that's why
+07:30
+we can use this and this and this will
+07:33
+take in our TK method which I called app
+07:36
+sometimes you'll see it called root or
+07:38
+window so that I called it app and then
+07:41
+we need to pass in our text which is
+07:43
+going to be actually these single quotes
+07:46
+this is gonna be part name and then we
+07:50
+can also add some styling like the font
+07:53
+so for font I'm gonna set set it to bold
+07:57
+and 14 for the size and then I also want
+08:01
+a little bit of padding if we look at
+08:03
+the final product here you can see that
+08:05
+there's some space here and here so some
+08:08
+padding on the y-axis so for that we can
+08:10
+do pad y equals and I'm going to use 20
+08:13
+now just doing that isn't going to place
+08:16
+it we need to place it in the grid so
+08:19
+we're going to take the part label and
+08:21
+call dot grid and then here we put in a
+08:25
+row which I'm going to say row equals 0
+08:28
+and
+08:29
+so a column and column is also going to
+08:32
+be zero so let me just kind of explain
+08:34
+how this works so basically this is a
+08:38
+grid so picture a light should have
+08:41
+actually created an image with some
+08:43
+lines but picture a line going right
+08:44
+down here so this a line going here and
+08:49
+here so this is the first row which has
+08:54
+an index of zero so this is row 0 this
+08:57
+is column zero okay so we want to be in
+09:02
+row 0 column 0 which is right here this
+09:05
+would be row 0 column 1 row 0 column 2
+09:10
+row 0 column 3 ok the second row would
+09:14
+be Row 1 because it's 0 1 so this would
+09:16
+be Row 1 column 0 Row 1 column 1 Row 1
+09:21
+column 2 Row 1 column 3 and so on
+09:24
+all right so we want 0 0 and then if we
+09:27
+save this and we run this let's check it
+09:30
+out and we have our label in the 0 0
+09:33
+position okay so the next thing we want
+09:36
+is the entry we want it right here which
+09:38
+is going to be row 0 column 1 ok because
+09:41
+this is column 0 that we won't call them
+09:43
+1 for the entry so let's say part entry
+09:49
+and we're going to set this to an entry
+09:52
+widget which takes in our app and it's
+09:55
+also going to take in a text variable
+09:58
+which is going to be equal to part text
+10:00
+which is our string bar that we created
+10:02
+up here ok so basically we're binding
+10:05
+this entry to that and then we need to
+10:06
+place that on the grid so part's entry
+10:10
+dot grid same deal we pass in a row
+10:14
+which is going to be 0 because it's
+10:15
+going to be on the you know to the right
+10:17
+of it but it's going to be column 1 ok
+10:21
+and you can stir you can change things
+10:22
+around if you don't like the look of
+10:24
+this I mean you know you can put
+10:26
+whatever you want wherever you want
+10:28
+let's see I also want to align the label
+10:32
+to the left so in this part labeled grid
+10:35
+I'm going to add another property called
+10:37
+sticky so and this is kind of weird it
+10:40
+takes in like W or E
+10:43
+or west or east we want to align it to
+10:44
+the left so we want to use w or aligning
+10:48
+it to the West which is a little weird
+10:50
+but that's just the syntax so let's save
+10:53
+this and let's open it up and now we
+10:57
+have label here and we have our entry
+11:00
+here which is is bound to this part text
+11:05
+string variable alright so the rest of
+11:08
+them the rest of the labels and inputs
+11:10
+are pretty similar so I'm just gonna
+11:12
+grab this and copy it down that's two
+11:14
+three four because we're four fields
+11:16
+total and then let's see this here is
+11:20
+gonna be customer so let's go ahead and
+11:25
+just replace all these parts with
+11:29
+customer and then we'll just change the
+11:32
+text here to customer we actually don't
+11:39
+need the padding on the on the last
+11:41
+three can only be on we only need it on
+11:43
+the first one because it will bump the
+11:45
+rest of them down so let's just take all
+11:49
+these and get rid of them just we just
+11:52
+wanted on the first one up here alright
+11:55
+so customer label grid now for the
+11:57
+positioning here customers on the same
+12:00
+line as part so we still want row zero
+12:04
+however we want to go the next column
+12:05
+over which is going to be two and then
+12:08
+for the entry same row but we're going
+12:10
+to go over to three all right so that's
+12:13
+customer the next one is retailer so
+12:18
+we'll go ahead and
+12:22
+place all these with retailer okay and
+12:30
+see it'll change the text here to
+12:35
+retailer and as far as the label goes
+12:39
+now we're gonna move down a row so Row 1
+12:41
+column 0 text variable retailer text
+12:45
+that's correct the entry is going to be
+12:48
+Row 1 column 1 ok and then we have
+12:52
+finally the price so we're gonna change
+12:57
+this stuff to price and let's change
+13:02
+this to price whoops price and the
+13:10
+positioning is gonna be Row 1 column see
+13:13
+if you can if you can figure it out
+13:15
+so retailer and price are gonna be on
+13:17
+the same line which is Row 1 the
+13:21
+retailer label is 0 the retailer entry
+13:24
+is 1 so what what is the price label
+13:28
+gonna be it's gonna be 2 right and then
+13:30
+the entry is gonna be 3 Row 1 alright so
+13:34
+that should do it as far as the the
+13:35
+labels and entries so let's save that
+13:38
+and take a look and there we go alright
+13:43
+so these will actually get pushed over
+13:44
+after we add our list list box because
+13:47
+we're actually going to span some rows
+13:50
+and it will actually push these over a
+13:52
+little bit so let's create our list box
+13:55
+which is going to be our parts list so
+14:00
+we'll say parts list which is a list box
+14:03
+widget so we'll call this parts list
+14:08
+and let's set this to a listbox
+14:12
+pass in our app and we can pass in a
+14:16
+height here we're gonna do height height
+14:20
+equals 8 and width equals 50 and you
+14:26
+might have to again mess with some of
+14:28
+these depending on you know what screen
+14:30
+you're using and stuff like that let's
+14:35
+yeah I don't want a border but I'm not
+14:36
+gonna add border 0 yet just so we can
+14:39
+see the actual outline of this so we
+14:41
+need to add this to the grid so let's
+14:43
+take our parts list dot grid and let's
+14:50
+see we want to put this on Row 3 because
+14:53
+remember the wave Row 1 and women yeah
+14:57
+row 0 + Row 1 are the inputs and labels
+15:01
+Row 2 is going to be the buttons the
+15:03
+buttons are actually going to go above
+15:04
+the list box but I'm going to do the
+15:06
+buttons last so this is going to be Row
+15:08
+3 and then let's see we want to do
+15:12
+column 0 because we want to start all
+15:15
+the way over to the left and then we're
+15:17
+also going to add a column span this is
+15:21
+kind of like like doing a table with
+15:23
+HTML if you want to span you know table
+15:27
+rows or whatever so column span we're
+15:29
+gonna set that to 3 and then we also
+15:32
+want to do a row span and let's do that
+15:35
+let's do 6 and then add some padding on
+15:38
+the y-axis 20 and then padding on the
+15:43
+x-axis of 20 all right so let's save
+15:47
+that let's take a look okay so this is
+15:50
+what we get it's our list box now I like
+15:54
+I said I don't want the border but I
+15:55
+just wanted to leave it there so you
+15:57
+could see you know the size of it and
+15:59
+where it's located but I'm gonna set
+16:01
+here inside the list box border equals 0
+16:06
+and now if I run that you can see that
+16:10
+we can't even see the list box with if
+16:12
+there's no data in it okay so the next
+16:16
+thing I want to do is add a scroll bar
+16:18
+and the way that this works is a little
+16:20
+weird we got to create the scroll bar
+16:22
+first and then kind of link it to the
+16:24
+list box so let's say create scroll bar
+16:30
+so we'll create a variable called scroll
+16:33
+bar and set that equal to capital S
+16:36
+scroll bar and this is going to take in
+16:40
+just the app and then we want to put it
+16:43
+on the grid so scroll bar dot grid and
+16:47
+we're gonna say Row 3 which is the same
+16:50
+row as the list box and then let's do
+16:53
+column 3 because remember we spanned the
+16:58
+list box spins three columns so we're
+17:02
+gonna put the scroll bar and the one
+17:03
+next to it basically it was the the list
+17:06
+box is zero one two and then we're gonna
+17:08
+put the scroll bar in three so I mean
+17:11
+that should at least show up now I
+17:13
+believe so if we take a look okay so it
+17:17
+does show up but it's not connected to
+17:18
+the list box yet so what we need to do
+17:21
+now let's say set set scroll to list box
+17:30
+so we take our parts list which is our
+17:34
+list box and we just call dot configure
+17:38
+and we want to pass in here the Y scroll
+17:44
+command and we're gonna set that to our
+17:49
+scroll bar variable which has a property
+17:51
+called set okay and then we want to take
+17:54
+our scroll bar and call dot configure
+17:59
+and then we're gonna pass in here
+18:01
+command okay and our buttons will also
+18:04
+have commands basically something that
+18:06
+will happen when they're used and we're
+18:08
+going to set this to parts list dot Y
+18:12
+view
+18:13
+so basically scroll along the y-axis
+18:15
+alright so if we save this I mean we're
+18:18
+not gonna really see anything here
+18:19
+because there's there's no data but I'll
+18:22
+show you you know once we add some data
+18:24
+that we'll be able to scroll if we need
+18:27
+to okay so let's see the next thing
+18:31
+we'll do is add our buttons
+18:34
+so let's go down here and say puns so
+18:39
+we're gonna have four different buttons
+18:40
+add remove update and clear clear the
+18:44
+text or clear the input whatever so
+18:46
+let's do the add button I'll call it add
+18:48
+underscore BTN set it to a button past
+18:53
+an app and this is gonna take in text
+18:56
+well what we want the button to say
+18:57
+which is going to be add part okay and
+19:03
+then let's we can set a width I'm gonna
+19:05
+say with 12 and then it's going to have
+19:08
+a command which is going to be add
+19:10
+underscore item so this is going to be a
+19:12
+function that we need to create okay and
+19:15
+then we need to add this to the grid so
+19:16
+add button dot grid so you can see I
+19:21
+mean the available widgets and how we
+19:23
+add them to the UI using this dot grid
+19:26
+and using the columns and rows so we're
+19:29
+gonna go row two
+19:30
+because it's going to be above the list
+19:32
+box which is Row three and then let's
+19:35
+say column equals zero because it's
+19:39
+going to be the first button so we want
+19:40
+it all the way to the left and let's
+19:43
+let's do padding y equals 20 which we
+19:49
+only need to put on the first button and
+19:51
+then we can grab this and yeah we'll
+19:56
+just copy that and I need four more so
+20:00
+the second one is gonna be remove
+20:05
+okay so it's changed you know just
+20:10
+change all these to remove and then
+20:14
+let's change this to remove part remove
+20:22
+item is going to be the command that's
+20:24
+good and then as far as this goes we
+20:26
+don't need the padding and it's going to
+20:30
+be Row two column one because we want it
+20:34
+to be to the right of the add button
+20:36
+okay and then this one here is going to
+20:38
+be update so say update part and update
+20:51
+item will be the command we don't need
+20:53
+this and then the row is gonna be two
+20:57
+and the column is gonna be 2 so 0 1 2
+21:01
+and then this last one here is gonna be
+21:05
+clear and let's change let's say clear
+21:15
+input
+21:18
+and it's gonna call clear text is going
+21:21
+to be the function name and it's gonna
+21:26
+be column three all right now if I save
+21:29
+this and I try to run it we're gonna get
+21:32
+an error because we're calling commands
+21:35
+or we're calling functions here that
+21:37
+don't exist so I'm gonna put these up
+21:40
+here now
+21:42
+I'm gonna also have in the repository in
+21:45
+the description I'm gonna have an
+21:46
+object-oriented version of this script
+21:49
+as well but I didn't want to do it in
+21:52
+the video because I want to keep it
+21:53
+simple and focus on the syntax for this
+21:56
+library and how to create the interface
+21:57
+I don't really want to get into you know
+22:01
+creating classes and stuff although we
+22:04
+are going to create a database class but
+22:06
+it's a little more understandable so I
+22:08
+will have that in the repository as well
+22:10
+so let's create these functions I'm
+22:13
+actually going to go above go up here so
+22:17
+we're gonna have a function called
+22:18
+populate list which is going to be
+22:22
+responsible for actually getting the
+22:24
+data and let's just for now we'll just
+22:26
+do I guess we'll just do prints I don't
+22:31
+really plan this you know we'll just say
+22:33
+print populate and then let's see we
+22:36
+want our add item yeah so add item and
+22:43
+just do a print ad what else we have
+22:50
+remove item
+23:01
+let's do update update and what else do
+23:13
+we have clear so define clear text all
+23:25
+right
+23:25
+so let's save that and this should at
+23:27
+least run okay there we go so we can see
+23:30
+our buttons good let's say so if I click
+23:34
+add you can see down here in the console
+23:36
+it logs add remove update and clear so
+23:41
+we know that those are these buttons are
+23:43
+now hooked to these functions the
+23:46
+populate we actually want to run that I
+23:48
+mean we could create a button to to
+23:50
+fetch the data but I wanted to just show
+23:53
+when this opens so we're simply gonna
+23:55
+just call that down here we'll go right
+23:59
+above our main loop here and let's just
+24:02
+say populate data and we'll call
+24:07
+populate list here so now when we run
+24:10
+this you can see we get populate alright
+24:14
+so as far as this goes I think we're all
+24:18
+set for now because we need to create
+24:20
+our database stuff so let's go into
+24:22
+dbgap
+24:23
+and let's import sqlite3 and we're gonna
+24:28
+create a class database I mean we you
+24:31
+don't have to use a class but I think
+24:33
+that it's I mean it's much more
+24:35
+organized and it's less code if we do it
+24:38
+this way and it's it's pretty easy to
+24:41
+understand if you've worked with classes
+24:43
+in any other language it's not much
+24:45
+different basically we need a
+24:48
+constructor although in Python it's
+24:50
+called an initializer or in it so we
+24:53
+want to define double underscore and
+24:56
+knit double underscore and all these
+24:59
+methods inside the class are gonna take
+25:01
+in self which is like this in many other
+25:04
+languages in JavaScript PHP use
+25:07
+this in Python we use self it's also
+25:10
+going to take in the database so when we
+25:12
+initialize a database class we're gonna
+25:14
+pass in the database name that we want
+25:16
+to call it now as far as what we want to
+25:18
+do here we basically want to set up our
+25:20
+connection and we also want to create
+25:22
+our table we're gonna have a table
+25:24
+called parts and that's where all this
+25:25
+stuff is gonna be is gonna be stored so
+25:29
+we need to take self which is like using
+25:31
+this and many other languages and so
+25:34
+basically we're setting a property
+25:36
+called connection or Co and N and we're
+25:39
+gonna set that to SQLite 3 dot connect
+25:42
+which is how we can connect to a
+25:44
+database and pass in DB which is going
+25:46
+to get passed in when we initialize this
+25:48
+this class the object from this class
+25:53
+and then we're gonna have a cursor so
+25:55
+self dot see you are so cursor is
+25:58
+basically used to execute queries so we
+26:02
+want to set this to self dot Khan which
+26:07
+is our connection and then dot cursor so
+26:11
+this is just how SQL Lite works and then
+26:13
+what we do if we want to execute a query
+26:15
+is we'll say self dot cursor dot execute
+26:19
+and then we can put our SQL statement in
+26:21
+here which in this case is going to be
+26:23
+create table if not exists if it already
+26:27
+exists we don't want to create it so
+26:29
+we're gonna create parts and then we
+26:33
+have to put the fields in here that we
+26:37
+want so we want an ID which is gonna be
+26:39
+an integer and also the primary key and
+26:44
+it should auto increment by default as
+26:47
+well and then we have our part which is
+26:49
+going to be text we have our customer
+26:51
+which is going to be text retailer these
+26:56
+are all just text fields and then the
+26:59
+other one price text alright so lets you
+27:04
+create the table now we have to commit
+27:05
+this so self dot cursor I'm sorry not
+27:10
+cursor gone connection
+27:12
+come and that's it so that should set up
+27:15
+our connection and then it should set up
+27:21
+our cursor and then execute this SQL
+27:24
+query to create a table so now we need
+27:28
+basically our crud operations so let's
+27:30
+define I will just call this one fetch
+27:34
+this is going to be to fetch the data
+27:35
+and all these methods are gonna take in
+27:38
+self and we're gonna take self dot
+27:42
+cursor dot execute and simply execute
+27:47
+select all from parts okay and then
+27:53
+we're gonna have a variable called rows
+27:55
+and we're gonna set this to self dot
+27:59
+cursor and we can use this fetch all
+28:01
+method here which will just get all the
+28:03
+rows and then simply return the rows
+28:06
+that's it okay so next we want to do our
+28:10
+insert so insert it's gonna take himself
+28:14
+but it's also going to take in the part
+28:18
+customer retailer and price
+28:28
+all right so now let's see we're gonna
+28:35
+execute so let's say cursor execute and
+28:40
+we're gonna do an insert here so let's
+28:43
+say insert into parts and our values so
+28:51
+we're gonna do a little replacement here
+28:53
+to protect from SQL injection so first
+28:55
+for ID is gonna be null and then we just
+28:58
+want some question marks which are just
+29:00
+placeholders for each field and then we
+29:04
+want to go after our closing quote here
+29:07
+and put a comma and then we want what we
+29:09
+want to replace it with which are going
+29:10
+to be these variables these arguments
+29:13
+that are passed in so part customer
+29:17
+retailer and price all right and then we
+29:22
+just have to commit it so self dot
+29:25
+connection dot commit all right so
+29:30
+that's our insert next we'll do the
+29:33
+remove so define remove takes in self
+29:37
+it's also going to need an ID so we know
+29:39
+which which part we're removing are
+29:42
+deleting and we're gonna say self dot
+29:45
+cursor dot execute and let's say delete
+29:51
+from parts where I just need a where
+29:57
+clause where ID equals question mark and
+30:00
+then we'll do our replacement we'll pass
+30:03
+in ID now we need a trailing comma if
+30:06
+you're not really familiar with Python
+30:07
+if you have a tuple which is what this
+30:10
+is if you have a tuple that only has one
+30:13
+value then you need a trailing comma so
+30:16
+that's why that's there I know it's a
+30:18
+little weird so then we need to commit
+30:20
+this so self dot connection dogs commit
+30:26
+all right and then we want to do an
+30:28
+update so the update is gonna take in
+30:33
+self then then it's going to take in
+30:35
+everything the ID because we need to
+30:37
+know which one we're updating and then
+30:39
+the actual data so customer retailer
+30:45
+retained I just say retainer retailer
+30:48
+and then price and then we can go ahead
+30:53
+and execute our query and the query is
+31:00
+going to be an update so I want to say
+31:02
+update the parts table and we want to
+31:04
+set the part equal to question mark
+31:08
+customer equal to question mark I'm sure
+31:12
+I spelt a couple things wrong here
+31:15
+retailer equals question mark price and
+31:21
+then we need our where clause so where
+31:24
+ID equals question mark and then we just
+31:26
+need our to replace everything so we
+31:30
+want part right get our part customer
+31:36
+retailer price and ID so we're just
+31:39
+replacing these question marks here
+31:45
+retailer price ID all right and then we
+31:51
+just need to commit it so I'll just grab
+31:53
+that put that there
+31:55
+all right so there's one more thing I
+31:56
+want to do and that is create a
+31:58
+destructor just like you can have a
+31:59
+constructor that runs you know when the
+32:03
+object is instantiated you can have a
+32:06
+destructor method that's called when all
+32:08
+references to the object have been
+32:09
+deleted so we do that in Python with
+32:12
+double underscore de el double
+32:15
+underscore and this will take itself and
+32:18
+what I want to do is just close the
+32:20
+connection so self dot connection dot
+32:24
+close alright and that's that's it so
+32:27
+let's save that and what I'm gonna do is
+32:30
+just populate the database with some
+32:32
+data so the way that we can do that I'm
+32:37
+just going to do it run it
+32:38
+from this file just to get the data in
+32:40
+there and create the database so when
+32:44
+you want to instantiate something an
+32:45
+object from a class we need to just set
+32:48
+it set this to the class name which is
+32:49
+database and remember it takes in the
+32:52
+database name which I'm going to call
+32:53
+store dot DB all right so that will
+32:57
+instantiate it and then we can use this
+33:00
+DB to call any of these methods and we
+33:02
+want to call insert because that's what
+33:04
+we're doing is inserting some stuff into
+33:06
+the database now I'm just gonna paste
+33:10
+this in because it's just a bunch of
+33:12
+insert statements you can copy it if you
+33:14
+want it should be in the in the
+33:17
+repository comment it out if you want to
+33:19
+grab it from there basically we just
+33:20
+have the part the customer the retailer
+33:24
+and the price all right so I'm gonna
+33:27
+save this and then let's go down to our
+33:29
+terminal and let's just run Python DB
+33:33
+dot PI and you can see over here it
+33:37
+created a store DB file and you guys
+33:40
+don't have to do this but I have SQL
+33:42
+Lite studio installed so I just want to
+33:45
+show you that I can open the database
+33:47
+here and see the data so I'm gonna go up
+33:48
+to my menu which you can't see but I'm
+33:50
+gonna go to database and then add
+33:52
+database and click on the folder here
+33:56
+and choose store DB and we should be
+33:59
+able to see that what's going on in here
+34:04
+and connect okay so there's our parts
+34:07
+table so we should be able to get the
+34:10
+data let's say I haven't used this in
+34:17
+quite a while
+34:17
+yeah generate query so we'll say select
+34:20
+and we'll just select from parts and
+34:23
+let's run this so we'll click play and
+34:25
+there we go so you can see that the data
+34:27
+is in fact in our SQLite database all
+34:32
+right so we know that that's there now
+34:33
+I'm gonna just comment all this out
+34:35
+because you don't want to run this again
+34:36
+and save and then we're gonna go back to
+34:39
+part manager and now we need to be able
+34:41
+to call those methods from our database
+34:44
+class in these methods here when we
+34:47
+click the button so
+34:49
+what we'll do is we need to first import
+34:53
+our DB our database so let's say from DB
+34:57
+let's import the database class and then
+35:03
+let's say from not from DB equals
+35:08
+database so we're just instantiating
+35:10
+this DB object just like we did in the
+35:12
+other file and we're gonna use our store
+35:14
+DB okay so we already have the table
+35:18
+created so it's not actually going to
+35:20
+create this it's just gonna basically
+35:21
+use it and then let's see down in our
+35:26
+populate list let's get rid of that and
+35:31
+we're gonna loop through so let's say
+35:35
+for we'll call this a row in DB and then
+35:39
+we're gonna call the fetch method so
+35:42
+basically we're gonna loop through these
+35:44
+rows because remember this fetch method
+35:46
+returns the rows that we get from fetch
+35:49
+all so we're gonna loop through those
+35:51
+and then we're gonna take our parts list
+35:54
+which is the list box widget and we're
+35:57
+going to insert okay it actually has a
+35:59
+method called insert and we want to
+36:02
+insert it on the end and we want to
+36:04
+insert the row the current row in the
+36:06
+loop so let's go ahead and save that and
+36:10
+if we run our application so we want to
+36:13
+run part manager now you can see we're
+36:16
+getting everything here okay now I just
+36:22
+want to show you because we're gonna
+36:24
+call populate lists a few different
+36:27
+times and I don't want to populate it
+36:31
+more than once like let me give you an
+36:33
+example actually let me close that up
+36:35
+first but if I were to call populate
+36:39
+list again down here let's copy that
+36:42
+down and save and then run this you'll
+36:47
+see that now we have it it's been
+36:49
+populated twice and you can also see the
+36:52
+scrollbar works I don't want that to
+36:54
+happen though so what we're gonna do is
+36:56
+right before we run this loop we're
+36:59
+gonna call
+37:00
+arts list and we're gonna call delete
+37:03
+okay which is a method we can use on the
+37:05
+list box and we want to delete
+37:08
+everything so we're gonna say zero and
+37:11
+zero and yeah so now even though I have
+37:16
+popular list twice if we run this notice
+37:18
+that we only get what's in the database
+37:21
+once it doesn't repeat itself all right
+37:24
+and then let's just make sure we get rid
+37:26
+of that second populate list alright so
+37:31
+we have that all set now let's do let's
+37:35
+do the add item now I do want to have a
+37:39
+little bit of validation actually we'll
+37:42
+do the validation after let's just do
+37:44
+the the basic insert so we want to
+37:46
+insert it into the database first so
+37:49
+we're gonna take DB and call insert and
+37:53
+this is going to take in the data so if
+37:56
+we look at our add item not add item
+38:00
+insert it's gonna get part customer
+38:03
+retailer price now to get the data from
+38:05
+the entry because that's what we want to
+38:07
+pass in here we can do that with the
+38:10
+text soap like part text for instance
+38:13
+and then we can call the get method
+38:15
+that'll actually get whatever's typed in
+38:18
+okay so we want to pass that in as well
+38:20
+as the customer dot get as well as the
+38:24
+retailer dot get and priced get alright
+38:33
+so yeah that should do it and then what
+38:36
+we want to do is basically delete
+38:39
+everything from the list so I'm just
+38:41
+going to copy this up here and then we
+38:45
+want to insert into the list so we can
+38:48
+do that with part it's list because what
+38:51
+this line does right here is it simply
+38:53
+inserts into the database it's not going
+38:56
+to insert it into the actual list box
+38:58
+that's what we're doing here so we're
+39:00
+going to call dot
+39:02
+insert into the end and then we just
+39:06
+want to pass in here and we actually
+39:10
+want to pass in a tuple here and I'm
+39:13
+gonna grab all of this data right here
+39:17
+okay so basically we're just passing in
+39:20
+a tuple with all of the data I'm sorry
+39:23
+this should be text these should all
+39:26
+have underscore text I guess a price
+39:32
+text retailer attacks
+39:41
+texts okay so it should be the the
+39:49
+underscore text and then dot yet so that
+39:53
+should insert it let's see what I want
+39:57
+to do after that so after we do that
+39:58
+let's repopulate the list so we'll just
+40:01
+call populate list and like I said I
+40:04
+will I do have an object-oriented
+40:06
+version of this in the github repository
+40:10
+so let's save this and try it out so
+40:14
+we'll run it and let's say we're gonna
+40:18
+add a 700 Watts PSU for John Doe say
+40:27
+Amazon 170 and add part and there it is
+40:32
+okay so it gets added now the issue that
+40:37
+I have with this is if we clear all
+40:40
+these own we click add part it just adds
+40:43
+this empty all this empty stuff here I
+40:45
+don't want to do that so what I'm gonna
+40:48
+do is have a little bit of validation
+40:50
+here and I wanted to have a message box
+40:54
+so this is where that TK message box
+40:57
+comes in that I installed so we're gonna
+40:59
+say from tkinter imports message box and
+41:09
+in the add item we can just do some very
+41:12
+simple validation here let's say if I
+41:20
+want to say here if I don't even need
+41:24
+that part text get is equal to nothing
+41:31
+or customer dot I mean customer
+41:38
+underscore text dot get is equal to
+41:42
+nothing
+41:43
+or what else retailer texts get price
+41:55
+text gets equal to nothing alright so if
+42:01
+that is true then let's take our message
+42:06
+box and there's a method called show
+42:08
+error so you can show info show warning
+42:10
+show error and then we're just gonna
+42:13
+pass in here required fields which I
+42:17
+believe is the title and then the
+42:19
+message is gonna be please include all
+42:24
+fields and then we're just gonna return
+42:28
+from this okay
+42:30
+so let's save that I have prettier
+42:34
+enabled and auto format so sometimes in
+42:37
+Python I noticed that the vs code Auto
+42:39
+for Mac screws things up in terms of the
+42:42
+indents
+42:43
+so hopefully you don't run into that I'm
+42:46
+just I have to close it first let's
+42:48
+close that up and let's run this again
+42:52
+all right so now if I try to add part
+42:56
+there we go we get a nice little pop-up
+42:58
+that says please include all fields so
+43:01
+we can't do this anymore we have to fill
+43:03
+in our fields let's see so let's let's
+43:11
+do the remove so close that up we'll go
+43:14
+down to remove item and this is actually
+43:18
+going to be a little different because
+43:22
+we need to know which one we're removing
+43:24
+and basically I'm just gonna run it
+43:27
+again show you we can go ahead and
+43:30
+select from our list box and we need to
+43:33
+select the one that's selected to remove
+43:36
+it so before we even do remove item
+43:39
+we're gonna have another method called
+43:42
+select item and this is gonna take in an
+43:47
+event and basically what we're gonna do
+43:49
+is bind the list box to this this
+43:53
+function here so the way that we can do
+43:56
+that is let's go down to where we have
+44:00
+our list box parts list actually I'll
+44:04
+just we'll go right here and let's say
+44:06
+bind select basically we want to bind
+44:10
+the select to the Select item function
+44:14
+so parts list and we can call method
+44:18
+call bind and here we're gonna put in
+44:21
+these double this is kind of weird
+44:23
+syntax but these double angle brackets
+44:25
+and then list box select like that and
+44:32
+then the function we want to bind to
+44:34
+which is called select item all right so
+44:40
+now I'm gonna go up here and in select
+44:43
+item for now I'm just gonna do a print
+44:44
+and let's just print select and make
+44:50
+sure that this works so let's run this
+44:53
+and now each time I click watch in the
+44:56
+console we get select select select okay
+45:00
+so we know that that's working we we
+45:03
+were able to bind the you know the item
+45:07
+we select to the Select item function so
+45:11
+now this is a little tricky here what
+45:14
+we're gonna do is set a global variable
+45:17
+so that we can use this in the remove
+45:20
+item and this makes a little more sense
+45:23
+in the object oriented version I mean
+45:26
+that's the version I would I would
+45:27
+actually use if I were actually building
+45:30
+this but like I said I didn't want it to
+45:32
+get too complicated so we're gonna say
+45:35
+global selected item because we could
+45:38
+have just had it as a property to a
+45:40
+class and then we need to get the index
+45:45
+so we're gonna say index equals the way
+45:48
+that we do that is the parts list which
+45:51
+is the list box we can call dot see you
+45:56
+are so cur selection
+45:58
+and we want the first one we just want
+46:01
+to pass in zero here and then we're
+46:03
+gonna have another variable called
+46:06
+selected underscore item or not not
+46:10
+created but we're taking this selected
+46:12
+item
+46:13
+and we're gonna set it to parts list and
+46:16
+then we can call dot get and we can pass
+46:19
+in the index and just to show you what
+46:23
+this gives us let's just do a print of
+46:25
+selected item all right so we're gonna
+46:30
+run this if I click on that there you go
+46:33
+you can see we get the data every time I
+46:35
+select ok so now what we need to do is
+46:42
+we want to add before we do that get to
+46:45
+the remove I shouldn't even mention the
+46:46
+remove yet because what we need to do
+46:48
+first is when we actually select we want
+46:52
+to put the data into these entries ok so
+46:55
+let's do that
+46:57
+we'll get rid of that and I mean first
+47:01
+thing we want to do is delete the entry
+47:03
+and then insert it so let's take the
+47:06
+part entry and let's call delete so we
+47:11
+want to delete 0 to end and then we want
+47:15
+to take part entry and then we want to
+47:19
+insert and and we can get what we need
+47:26
+with selected item and then the index of
+47:29
+one here alright so we just need to do
+47:31
+this for all the fields so I'm just
+47:33
+gonna copy this down that's C 2 3 4 and
+47:39
+this here will grab this and this and
+47:45
+that's going to be customer and then
+47:49
+let's change these to retailer
+47:53
+and these to price okay and then we just
+48:00
+need to change over here this will be
+48:03
+two three four
+48:08
+okay so we'll save that and let's run
+48:12
+this and now if I select one of these
+48:16
+you see that the data gets I mean first
+48:18
+it deletes from each entry and then it
+48:21
+adds the data all right so now for the
+48:25
+remove for the remove this is actually
+48:28
+going to be pretty easy because we have
+48:31
+access to that this selected item which
+48:33
+is a global variable so let's say DB dot
+48:38
+we're gonna call remove from our
+48:39
+database class and just simply pass in
+48:42
+the selected item 0 and then let's
+48:48
+populate the list so we'll run this
+48:53
+again so if we go down here and I click
+48:58
+remove there we go let's get rid of this
+49:00
+remove good now for the clear text we
+49:06
+want to do just that I want to be able
+49:08
+to clear the input also once we for
+49:13
+instance once we add a part I want to
+49:15
+clear the text as well once we remove it
+49:17
+I want to clear it so we're gonna use in
+49:19
+a few different places so let's do the
+49:22
+clear text before we do actually do the
+49:24
+update which is going to be really easy
+49:26
+we basically just need to call all these
+49:28
+deletes so I'm gonna copy all of these
+49:31
+right here and then in clear text we
+49:35
+only need the deletes so I'm just going
+49:37
+to place a cursor here here here and
+49:40
+here
+49:41
+and we'll go ahead and just oops I just
+49:45
+do
+49:48
+let's delete
+49:54
+there we go all right so that will just
+49:57
+delete everything let's try it out so
+50:02
+remember this button here clear input
+50:04
+calls clear text so if we click that
+50:06
+there we go okay and we just want to
+50:10
+call it also up here where we add the
+50:16
+item right before we populate the list
+50:21
+let's call clear text I don't like how
+50:26
+the s code formatted this so call it
+50:30
+there let's also call it right here okay
+50:37
+it should do it and then let's do our
+50:40
+update and then I think we should be all
+50:43
+set so for the update we're just going
+50:49
+to call DB update and we need to pass in
+50:54
+the ID which is going to be the selected
+50:58
+item zero and then all of you know this
+51:04
+stuff up here where can I get this from
+51:08
+right here so this insert I'm just gonna
+51:10
+grab all the arguments we passed in here
+51:13
+which are just all the entry texts and
+51:16
+then pass those
+51:19
+in here so oh yeah and then we'll I mean
+51:25
+it's up to you if you want to clear it
+51:27
+after update I'm not going to just in
+51:29
+case you know you want to change
+51:30
+something else so I'm going to get rid
+51:32
+of clear text but we do want to populate
+51:33
+the list I put it in the wrong spot hold
+51:37
+on a second and we just undo what I just
+51:40
+did
+51:41
+remove that's right yeah I want to put
+51:43
+this here sorry if that confused you
+51:50
+populate list and good so let's try the
+51:53
+update so I'll go down here and let's
+51:58
+change this to 140 change Newegg to
+52:02
+Amazon what's this index error tuple
+52:11
+index out of range oh we might have to
+52:15
+fix that let's make sure this update
+52:18
+works good so you can see that that
+52:19
+updated the data so for this index error
+52:23
+here tuple index out of range
+52:28
+I want to ignore this and I don't think
+52:32
+I did this in my script no I didn't let
+52:38
+me just check something
+52:42
+so basically when we select the item
+52:46
+right here let's let's put a try-catch
+52:49
+here so basically everything that we do
+52:52
+here let's go ahead and put a try block
+52:57
+and then we can just
+53:05
+push that over and then catch so
+53:11
+basically I'm not catch am i saying we
+53:14
+want to put an except here so if it's an
+53:18
+index error then we're gonna just pass
+53:24
+all right so we shouldn't get that error
+53:26
+anymore
+53:28
+we run this whoops what the hell okay so
+53:38
+let's do an update again like 40 all
+53:42
+right so we're not getting that error
+53:45
+okay if I click in here anywhere all
+53:50
+right so our application is done now I'm
+53:54
+gonna attempt to use PI installer here
+53:57
+so I'm just gonna close this up and
+54:00
+clear my terminal and if you are on
+54:03
+Windows you should be able to just run
+54:05
+PI installer and then the name of the
+54:08
+script which is part manager dot PI and
+54:12
+then we just want to add dash dash 1
+54:14
+file because we want to create one
+54:16
+executable and then dash dash windowed
+54:18
+since it's a GUI program so if you run
+54:21
+this on Windows everything should be ok
+54:23
+on Mac unfortunately the file just
+54:26
+doesn't open and I took me a little
+54:30
+while to find it but I guess there's a
+54:33
+bug on Mac when you do it this way so
+54:35
+the only solution that I could find I'm
+54:38
+just going to delete this is let me see
+54:42
+I'm just gonna paste it in here because
+54:43
+it's kind of long I'll paste it into
+54:48
+park manager PI and this will be in the
+54:51
+github so basically we need to add this
+54:53
+add binary as well and make sure that
+54:58
+you have the name of the script here if
+55:00
+you use something different you want to
+55:01
+put that there and yeah so we're going
+55:04
+to call this so let's copy that and go
+55:08
+down here and paste
+55:10
+we're on it and what it's going to do is
+55:15
+create it's going to create a build
+55:16
+folder and it's going to create a dist
+55:18
+folder the dist folder is where the
+55:20
+program should be so I'm going to open
+55:23
+up dist and you should have this part
+55:27
+manager and if we click on it this opens
+55:31
+up and you'll also have your terminal
+55:33
+here open up along with it but now we do
+55:36
+actually have an executable and it
+55:38
+should work so let's try it out we'll
+55:40
+say I don't know 4 gigabytes of RAM for
+55:46
+Sam Smith from Amazon price 140 add part
+55:56
+ok there we go good yeah let's just try
+56:01
+to update it make sure everything works
+56:05
+to 150 and update ok clear input works
+56:11
+and if we remove that works all right so
+56:15
+we were able to create an executable so
+56:18
+I'll just close this up and close that
+56:20
+out and that's it so I mean obviously
+56:24
+this is a very small simple application
+56:27
+but it gives you an idea on how to start
+56:29
+to create your own GUI apps with Python
+56:31
+and tkinter so that's it and hopefully
+56:34
+you guys enjoyed this if you did please
+56:35
+leave a like and I'll see you next time
